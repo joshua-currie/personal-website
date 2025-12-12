@@ -67,17 +67,17 @@ body
 .social-links 
 {
     position: absolute;
-    top: 20px;
-    left: 20px;
+    top: 1.5%;
+    left: 1.5%;
     z-index: 100;
     display: flex;
-    gap: 40px;
+    gap: 12%;
 }
 
 .social-links a 
 {
     font-family: 'Comic Sans MS', 'Comic Sans', cursive;
-    font-size: 28px;
+    font-size: 2vmin;
     color: white;
     text-decoration: none;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
@@ -93,11 +93,11 @@ body
 .welcome-message 
 {
     position: absolute;
-    left: 120px;
+    left: 9%;
     top: 40%;
     transform: translateY(-50%);
     font-family: 'Comic Sans MS', 'Comic Sans', cursive;
-    font-size: 42px;
+    font-size: 3vmin;
     color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
     z-index: 100;
@@ -108,11 +108,11 @@ body
 .activity-message 
 {
     position: absolute;
-    bottom: 50px;
-    left: 40px;
+    bottom: 4%;
+    left: 3%;
     width: max-content;
     font-family: 'Comic Sans MS', 'Comic Sans', cursive;
-    font-size: 36px;
+    font-size: 2.5vmin;
     color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
     z-index: 100;
