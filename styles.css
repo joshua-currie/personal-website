@@ -76,7 +76,7 @@ body
 
 .social-links a 
 {
-    font-family: 'Comic Relief', cursive;
+    font-family: 'Comic Sans MS', 'Comic Sans', cursive;
     font-size: 2vmin;
     color: white;
     text-decoration: none;
@@ -97,7 +97,7 @@ body
     left: 9%;
     top: 40%;
     transform: translateY(-50%);
-    font-family: 'Comic Relief', cursive;
+    font-family: 'Comic Sans MS', 'Comic Sans', cursive;
     font-size: 3vmin;
     color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
@@ -113,7 +113,7 @@ body
     bottom: 4%;
     left: 3%;
     width: max-content;
-    font-family: 'Comic Relief', cursive;
+    font-family: 'Comic Sans MS', 'Comic Sans', cursive;
     font-size: 2.5vmin;
     color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
@@ -204,7 +204,7 @@ body
     margin: 8px 0;
     font-size: 16px;
     line-height: 1.5;
-    font-family: 'Comic Relief', cursive;
+    font-family: 'Comic Sans MS', 'Comic Sans', cursive;
     color: white;
     font-weight: normal;
     font-style: normal;
@@ -255,6 +255,15 @@ body
 /* Mobile Responsive Styles */
 @media screen and (max-width: 768px) 
 {
+    body,
+    .social-links a,
+    .welcome-message,
+    .activity-message,
+    .tooltip-content p 
+    {
+        font-family: 'Comic Relief', cursive;
+    }
+    
     .social-links 
     {
         top: 2%;
@@ -265,7 +274,7 @@ body
     
     .social-links a 
     {
-        font-size: 3vmin;
+        font-size: 2.5vmin;
         white-space: nowrap;
     }
     
@@ -273,7 +282,7 @@ body
     {
         left: 5%;
         top: 42%;
-        font-size: 4vmin;
+        font-size: 3.2vmin;
         max-width: 90%;
     }
     
@@ -281,7 +290,7 @@ body
     {
         bottom: 2%;
         left: 2%;
-        font-size: 3vmin;
+        font-size: 2.2vmin;
         max-width: 96%;
         white-space: normal;
     }
@@ -315,24 +324,24 @@ body
     
     .tooltip-content p 
     {
-        font-size: 14px;
+        font-size: 13px;
         margin: 6px 0;
     }
     
     .tooltip-header 
     {
-        font-size: 14px !important;
+        font-size: 13px !important;
     }
     
     .tooltip-content p strong 
     {
-        font-size: 14px;
+        font-size: 13px;
     }
     
     #current-time,
     #temp-display 
     {
-        font-size: 14px;
+        font-size: 13px;
     }
 }
 
@@ -346,19 +355,19 @@ body
     
     .social-links a 
     {
-        font-size: 3.2vmin;
+        font-size: 2.5vmin;
     }
     
     .welcome-message 
     {
         left: 4%;
         top: 40%;
-        font-size: 4.5vmin;
+        font-size: 3.5vmin;
     }
     
     .activity-message 
     {
-        font-size: 3.5vmin;
+        font-size: 2.5vmin;
     }
     
     .person-image 
@@ -381,24 +390,24 @@ body
     
     .tooltip-content p 
     {
-        font-size: 13px;
+        font-size: 12px;
         margin: 5px 0;
     }
     
     .tooltip-header 
     {
-        font-size: 13px !important;
+        font-size: 12px !important;
     }
     
     .tooltip-content p strong 
     {
-        font-size: 13px;
+        font-size: 12px;
     }
     
     #current-time,
     #temp-display 
     {
-        font-size: 13px;
+        font-size: 12px;
     }
 }
 
@@ -408,13 +417,13 @@ body
     .welcome-message 
     {
         top: 25%;
-        font-size: 3vmin;
+        font-size: 2.5vmin;
     }
     
     .activity-message 
     {
         bottom: 3%;
-        font-size: 2.5vmin;
+        font-size: 2vmin;
     }
     
     .person-image 
