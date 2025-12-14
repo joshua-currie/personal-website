@@ -304,6 +304,35 @@ function init()
 {
     fetchWeatherData();
     setInterval(fetchWeatherData, 5 * 60 * 1000);
+    
+    // mobile touch handling for info icon
+    const infoIcon = document.getElementById('info-icon');
+    const infoTooltip = document.getElementById('info-tooltip');
+    
+    if (infoIcon && infoTooltip) 
+    {
+        // toggle tooltip on touch devices
+        infoIcon.addEventListener('click', function(e) 
+        {
+            e.stopPropagation();
+            infoIcon.classList.toggle('active');
+        });
+        
+        // close tooltip when clicking outside
+        document.addEventListener('click', function(e) 
+        {
+            if (!infoIcon.contains(e.target) && !infoTooltip.contains(e.target)) 
+            {
+                infoIcon.classList.remove('active');
+            }
+        });
+        
+        // prevent tooltip clicks from closing it
+        infoTooltip.addEventListener('click', function(e) 
+        {
+            e.stopPropagation();
+        });
+    }
 }
 
 // start when page loads

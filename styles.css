@@ -248,3 +248,201 @@ body
     font-weight: normal;
     color: white;
 }
+
+/* Mobile Responsive Styles */
+@media screen and (max-width: 768px) 
+{
+    .social-links 
+    {
+        top: 2%;
+        left: 2%;
+        gap: 8%;
+        flex-wrap: wrap;
+    }
+    
+    .social-links a 
+    {
+        font-size: 3vmin;
+    }
+    
+    .welcome-message 
+    {
+        left: 5%;
+        top: 35%;
+        font-size: 4vmin;
+        max-width: 90%;
+    }
+    
+    .activity-message 
+    {
+        bottom: 2%;
+        left: 2%;
+        font-size: 3vmin;
+        max-width: 96%;
+        white-space: normal;
+    }
+    
+    .person-image 
+    {
+        top: 68%;
+        left: 50%;
+        height: 50%;
+    }
+    
+    .info-icon 
+    {
+        top: 10px;
+        right: 10px;
+        width: 35px;
+        height: 35px;
+        font-size: 20px;
+    }
+    
+    .info-tooltip 
+    {
+        top: 55px;
+        right: 10px;
+        left: auto;
+        max-width: calc(100vw - 30px);
+        min-width: auto;
+        width: auto;
+        padding: 15px;
+    }
+    
+    .tooltip-content p 
+    {
+        font-size: 14px;
+        margin: 6px 0;
+    }
+    
+    .tooltip-header 
+    {
+        font-size: 14px !important;
+    }
+    
+    .tooltip-content p strong 
+    {
+        font-size: 14px;
+    }
+    
+    #current-time,
+    #temp-display 
+    {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 480px) 
+{
+    .social-links 
+    {
+        gap: 5%;
+    }
+    
+    .social-links a 
+    {
+        font-size: 3.5vmin;
+    }
+    
+    .welcome-message 
+    {
+        left: 4%;
+        top: 30%;
+        font-size: 4.5vmin;
+    }
+    
+    .activity-message 
+    {
+        font-size: 3.5vmin;
+    }
+    
+    .person-image 
+    {
+        top: 70%;
+        height: 45%;
+    }
+    
+    .info-icon 
+    {
+        width: 32px;
+        height: 32px;
+        font-size: 18px;
+    }
+    
+    .info-tooltip 
+    {
+        padding: 12px;
+    }
+    
+    .tooltip-content p 
+    {
+        font-size: 13px;
+        margin: 5px 0;
+    }
+    
+    .tooltip-header 
+    {
+        font-size: 13px !important;
+    }
+    
+    .tooltip-content p strong 
+    {
+        font-size: 13px;
+    }
+    
+    #current-time,
+    #temp-display 
+    {
+        font-size: 13px;
+    }
+}
+
+/* Landscape orientation on mobile */
+@media screen and (max-width: 768px) and (orientation: landscape) 
+{
+    .welcome-message 
+    {
+        top: 25%;
+        font-size: 3vmin;
+    }
+    
+    .activity-message 
+    {
+        bottom: 3%;
+        font-size: 2.5vmin;
+    }
+    
+    .person-image 
+    {
+        top: 60%;
+        height: 55%;
+    }
+}
+
+/* Touch device improvements */
+@media (hover: none) and (pointer: coarse) 
+{
+    .info-icon:active 
+    {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.1);
+    }
+    
+    .info-tooltip 
+    {
+        display: none;
+    }
+    
+    .info-icon.active + .info-tooltip 
+    {
+        display: block;
+        opacity: 1;
+        pointer-events: auto;
+    }
+    
+    .social-links a:active 
+    {
+        color: #4da6ff;
+        transform: scale(1.1);
+    }
+}
