@@ -76,7 +76,7 @@ body
 
 .social-links a 
 {
-    font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+    font-family: 'Comic Relief', cursive;
     font-size: 2vmin;
     color: white;
     text-decoration: none;
@@ -97,7 +97,7 @@ body
     left: 9%;
     top: 40%;
     transform: translateY(-50%);
-    font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+    font-family: 'Comic Relief', cursive;
     font-size: 3vmin;
     color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
@@ -113,7 +113,7 @@ body
     bottom: 4%;
     left: 3%;
     width: max-content;
-    font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+    font-family: 'Comic Relief', cursive;
     font-size: 2.5vmin;
     color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
@@ -204,7 +204,7 @@ body
     margin: 8px 0;
     font-size: 16px;
     line-height: 1.5;
-    font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+    font-family: 'Comic Relief', cursive;
     color: white;
     font-weight: normal;
     font-style: normal;
