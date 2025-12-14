@@ -82,6 +82,7 @@ body
     text-decoration: none;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
     transition: transform 0.2s ease, color 0.2s ease;
+    font-style: normal;
 }
 
 .social-links a:hover 
@@ -103,6 +104,7 @@ body
     z-index: 100;
     line-height: 1.6;
     text-align: left;
+    font-style: normal;
 }
 
 .activity-message 
@@ -119,6 +121,7 @@ body
     line-height: 1.6;
     text-align: left;
     white-space: nowrap;
+    font-style: normal;
 }
 
 .person-image 
@@ -257,18 +260,19 @@ body
         top: 2%;
         left: 2%;
         gap: 8%;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
     }
     
     .social-links a 
     {
         font-size: 3vmin;
+        white-space: nowrap;
     }
     
     .welcome-message 
     {
         left: 5%;
-        top: 35%;
+        top: 42%;
         font-size: 4vmin;
         max-width: 90%;
     }
@@ -336,18 +340,19 @@ body
 {
     .social-links 
     {
-        gap: 5%;
+        gap: 4%;
+        flex-wrap: nowrap;
     }
     
     .social-links a 
     {
-        font-size: 3.5vmin;
+        font-size: 3.2vmin;
     }
     
     .welcome-message 
     {
         left: 4%;
-        top: 30%;
+        top: 40%;
         font-size: 4.5vmin;
     }
     
