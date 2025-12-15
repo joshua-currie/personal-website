@@ -168,7 +168,7 @@ function getActivity(weatherData, timePeriod)
 
     else if (hour >= 10 && hour < 16) 
     {
-        activity = isWeekday ? 'at work' : 'out for lunch somewhere';
+        activity = isWeekday ? 'at work, in the process of being laid off. Pls help me find a new job :)' : 'out for lunch somewhere';
     } 
 
     else if (hour >= 16 && hour < 18) 
