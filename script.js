@@ -2,7 +2,7 @@
 // DEVELOPMENT OVERRIDES - to test different scenarios
 // =============================================================================
 const DEV_OVERRIDE = {
-    enabled: true,  // set to true to enable overrides
+    enabled: false,  // set to true to enable overrides
     hour: 12,        // 0-23 (19 = 7 PM)
     minute: 0,      // 0-59
     dayOfWeek: 0,    // 0=Sunday, 1=Monday, 2=Tuesday, 3=Wednesday, 4=Thursday, 5=Friday, 6=Saturday
