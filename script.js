@@ -46,7 +46,7 @@ function getBackgroundClass(weatherData)
         let period;
         if (hour === 12) 
         {
-            period = 'Noon';
+            period = ' around Noon';
         }
         
         else 
