@@ -40,19 +40,14 @@ function getBackgroundClass(weatherData)
         return { class: is_raining ? 'bg-2' : 'bg-1', period: 'Morning' };
     }
     
-    // noon/afternoon (12 PM - evening but before 30 min before sunset)
-    if (hour >= 12 && currentTimeInMinutes < thirtyMinutesBeforeSunset) 
+    // noon/afternoon (12 PM - 4 PM)
+    if (hour >= 12 && hour < 16) 
     {
         let period;
         if (hour === 12) 
         {
             period = 'Noon';
         }
-        
-        else if (hour >= 16) 
-        {
-            period = 'Evening';
-        } 
         
         else 
         {
@@ -62,22 +57,22 @@ function getBackgroundClass(weatherData)
         return { class: is_raining ? 'bg-4' : 'bg-3', period };
     }
     
-    // evening but 30 minutes before sunset (until 29 minutes before sunset)
-    if (currentTimeInMinutes >= thirtyMinutesBeforeSunset && currentTimeInMinutes < twentyNineMinutesBeforeSunset) 
+    // evening from 4pm until 30 minutes before sunset
+    if (hour >= 16 && currentTimeInMinutes < thirtyMinutesBeforeSunset) 
     {
-        return { class: is_raining ? 'bg-6' : 'bg-5', period: 'Evening (Before Sunset)' };
+        return { class: is_raining ? 'bg-6' : 'bg-5', period: 'Evening' };
     }
     
-    // 29 minutes before or after sunset
-    if (currentTimeInMinutes >= twentyNineMinutesBeforeSunset && currentTimeInMinutes <= twentyNineMinutesAfterSunset) 
+    // 30 minutes before sunset to 30 minutes after sunset
+    if (currentTimeInMinutes >= thirtyMinutesBeforeSunset && currentTimeInMinutes <= thirtyMinutesAfterSunset) 
     {
         return { class: is_raining ? 'bg-8' : 'bg-7', period: 'Around Sunset' };
     }
     
     // 30 minutes after sunset but before 11pm
-    if (currentTimeInMinutes > twentyNineMinutesAfterSunset && hour < 23) 
+    if (currentTimeInMinutes > thirtyMinutesAfterSunset && hour < 23) 
     {
-        return { class: is_raining ? 'bg-10' : 'bg-9', period: 'Evening' };
+        return { class: is_raining ? 'bg-10' : 'bg-9', period: 'Night' };
     }
     
     // after 11pm but not morning yet (11pm - 4:59 AM)
