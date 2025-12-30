@@ -2,16 +2,20 @@
 // DEVELOPMENT OVERRIDES - to test different scenarios
 // =============================================================================
 const DEV_OVERRIDE = {
-    enabled: false,  // set to true to enable overrides
-    hour: 18,        // 0-23 (19 = 7 PM)
-    minute: 30,      // 0-59
-    dayOfWeek: 1,    // 0=Sunday, 1=Monday, 2=Tuesday, 3=Wednesday, 4=Thursday, 5=Friday, 6=Saturday
+    enabled: true,  // set to true to enable overrides
+    hour: 12,        // 0-23 (19 = 7 PM)
+    minute: 0,      // 0-59
+    dayOfWeek: 0,    // 0=Sunday, 1=Monday, 2=Tuesday, 3=Wednesday, 4=Thursday, 5=Friday, 6=Saturday
     isRaining: false, // true or false
     temperature: 72, // in Fahrenheit
     // Sunset time in format "2025-12-11T17:45:00-05:00"
-    sunset: "2025-12-11T18:45:00-05:00"
+    sunset: "2025-12-11T18:00:00-05:00"
 };
 // =============================================================================
+
+// Global state to track if showing rooms or backgrounds
+let isShowingRoom = false;
+let currentWeatherData = null;
 
 // background selection
 function getBackgroundClass(weatherData) 
@@ -34,8 +38,8 @@ function getBackgroundClass(weatherData)
     // 30 minutes after sunset
     const thirtyMinutesAfterSunset = sunsetTimeInMinutes + 30;
     
-    // morning (5 AM - 11:59 AM)
-    if (hour >= 5 && hour < 12) 
+    // morning (7 AM - 11:59 AM)
+    if (hour >= 7 && hour < 12) 
     {
         return { class: is_raining ? 'bg-2' : 'bg-1', period: 'Morning' };
     }
@@ -44,7 +48,7 @@ function getBackgroundClass(weatherData)
     if (hour >= 12 && hour < 16) 
     {
         let period;
-        if (hour === 12) 
+        if (hour < 13) 
         {
             period = ' around Noon';
         }
@@ -75,10 +79,16 @@ function getBackgroundClass(weatherData)
         return { class: is_raining ? 'bg-10' : 'bg-9', period: 'Night' };
     }
     
-    // after 11pm but not morning yet (11pm - 4:59 AM)
-    if (hour >= 23 || hour < 5) 
+    // after 11pm but not morning yet (11pm - 6:59 AM)
+    if (hour >= 23 || hour < 0) 
     {
         return { class: is_raining ? 'bg-12' : 'bg-11', period: 'Night' };
+    }
+
+    // after 11pm but not morning yet (11pm - 6:59 AM)
+    if (hour >= 0 || hour < 7) 
+    {
+        return { class: is_raining ? 'bg-12' : 'bg-11', period: 'Early Morning' };
     }
     
     // default fallback
@@ -276,6 +286,9 @@ async function fetchWeatherData()
             console.log('Override data:', data);
         }
         
+        // Store weather data globally
+        currentWeatherData = data;
+        
         const timePeriod = updateBackground(data);
         updateTooltip(data, timePeriod);
         
@@ -295,10 +308,97 @@ async function fetchWeatherData()
     }
 }
 
+// Toggle between background and room view
+function toggleRoom() 
+{
+    if (!currentWeatherData) 
+    {
+        console.log('No weather data available yet');
+        return;
+    }
+    
+    const backgroundContainer = document.getElementById('background-container');
+    const currentClass = Array.from(backgroundContainer.classList).find(cls => cls.startsWith('bg-') || cls.startsWith('room-'));
+    
+    if (!currentClass) 
+    {
+        console.log('No current background class found');
+        return;
+    }
+    
+    if (isShowingRoom) 
+    {
+        // Switch back to background
+        const timePeriod = updateBackground(currentWeatherData);
+        isShowingRoom = false;
+        
+        // Show welcome message and person image
+        const welcomeMessage = document.querySelector('.welcome-message');
+        const personImage = document.getElementById('person-image');
+        if (welcomeMessage) welcomeMessage.style.display = '';
+        if (personImage) personImage.style.display = '';
+        
+        console.log('Switched to background view');
+    } 
+    
+    else 
+    {
+        // Switch to room
+        // Extract background number (e.g., "bg-1" -> 1)
+        const bgNumber = parseInt(currentClass.replace('bg-', ''));
+        
+        if (isNaN(bgNumber)) 
+        {
+            console.log('Invalid background number');
+            return;
+        }
+        
+        let roomClass = '';
+        const currentTime = new Date(currentWeatherData.current_time);
+        const isWeekend = currentTime.getDay() === 0 || currentTime.getDay() === 6;
+        const hour = currentWeatherData.hour;
+        
+        // For rooms 1-6, check if it's weekend
+        if (bgNumber >= 1 && bgNumber <= 6 && isWeekend) 
+        {
+            roomClass = `room-${bgNumber}-weekend`;
+        }
+        // For background 9, check if before 8pm and use -out variant (bg-8 doesn't have an -out variant)
+        else if (bgNumber === 9 && hour < 20) 
+        {
+            roomClass = `room-${bgNumber}-out`;
+        }
+        // Default room mapping
+        else 
+        {
+            roomClass = `room-${bgNumber}`;
+        }
+        
+        backgroundContainer.className = 'background-container';
+        backgroundContainer.classList.add(roomClass);
+        isShowingRoom = true;
+        
+        // Hide welcome message and person image in room mode
+        const welcomeMessage = document.querySelector('.welcome-message');
+        const personImage = document.getElementById('person-image');
+        if (welcomeMessage) welcomeMessage.style.display = 'none';
+        if (personImage) personImage.style.display = 'none';
+        
+        console.log(`Switched to room view: ${roomClass}`);
+    }
+}
+
 function init() 
 {
     fetchWeatherData();
     setInterval(fetchWeatherData, 5 * 60 * 1000);
+    
+    // Room toggle button
+    const roomToggleBtn = document.getElementById('room-toggle-btn');
+    if (roomToggleBtn) 
+    {
+        roomToggleBtn.addEventListener('click', toggleRoom);
+    }
     
     // mobile touch handling for info icon
     const infoIcon = document.getElementById('info-icon');
