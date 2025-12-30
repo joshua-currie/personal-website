@@ -338,6 +338,10 @@ function toggleRoom()
         if (welcomeMessage) welcomeMessage.style.display = '';
         if (personImage) personImage.style.display = '';
         
+        // Change button back to house emoji
+        const roomToggleBtn = document.getElementById('room-toggle-btn');
+        if (roomToggleBtn) roomToggleBtn.textContent = '🏠';
+        
         console.log('Switched to background view');
     } 
     
@@ -383,6 +387,10 @@ function toggleRoom()
         const personImage = document.getElementById('person-image');
         if (welcomeMessage) welcomeMessage.style.display = 'none';
         if (personImage) personImage.style.display = 'none';
+        
+        // Change button to outdoor emoji
+        const roomToggleBtn = document.getElementById('room-toggle-btn');
+        if (roomToggleBtn) roomToggleBtn.textContent = '🌳';
         
         console.log(`Switched to room view: ${roomClass}`);
     }
