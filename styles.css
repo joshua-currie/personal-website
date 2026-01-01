@@ -18,9 +18,9 @@ body
     left: 50%;
     transform: translate(-50%, -50%);
     width: 100vw;
-    height: 56.25vw; /* 16:9 aspect ratio height */
+    height: 56.25vw;
     max-height: 100vh;
-    max-width: 177.78vh; /* 16:9 aspect ratio width */
+    max-width: 177.78vh;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -577,12 +577,5 @@ body
 
 @media screen and (max-width: 768px) 
 {
-    .mode-btn 
-    {
-        width: 60px;
-        height: 60px;
-        font-size: 24px;
-        bottom: 3%;
-        right: 3%;
-    }
+    /* Remove restrictive mobile styles - let buttons keep their scene-specific positioning */
 }
