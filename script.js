@@ -101,8 +101,20 @@ function updateBackground(weatherData)
     const backgroundContainer = document.getElementById('background-container');
     const result = getBackgroundClass(weatherData);
     
+    // Check if transitioning from default background
+    const isFromDefault = backgroundContainer.classList.contains('bg-default');
+    
     backgroundContainer.className = 'background-container';
     backgroundContainer.classList.add(result.class);
+    
+    // Add fade-in effect only when transitioning from default
+    if (isFromDefault) {
+        backgroundContainer.classList.add('fade-in');
+        // Remove fade-in class after animation completes
+        setTimeout(() => {
+            backgroundContainer.classList.remove('fade-in');
+        }, 1000);
+    }
     
     console.log('Background updated:', result.class, weatherData);
     
