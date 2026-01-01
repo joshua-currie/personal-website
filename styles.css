@@ -70,7 +70,6 @@ body
     pointer-events: auto;
 }
 
-/* background classes for each scenario */
 .bg-1 { background-image: url('backgrounds/background-1.png'); }
 .bg-2 { background-image: url('backgrounds/background-2.png'); }
 .bg-3 { background-image: url('backgrounds/background-3.png'); }
@@ -85,7 +84,6 @@ body
 .bg-12 { background-image: url('backgrounds/background-12.png'); }
 .bg-default { background-image: url('backgrounds/default.png'); }
 
-/* TV toggle button */
 .tv-toggle-btn 
 {
     position: absolute;
@@ -102,7 +100,6 @@ body
     opacity: 0;
 }
 
-/* room background classes */
 .room-1 { background-image: url('rooms/room-1.png'); }
 .room-1-weekend { background-image: url('rooms/room-1-weekend.png'); }
 .room-2 { background-image: url('rooms/room-2.png'); }
@@ -116,7 +113,6 @@ body
 .room-6 { background-image: url('rooms/room-6.png'); }
 .room-6-weekend { background-image: url('rooms/room-6-weekend.png'); }
 
-/* TV screen */
 .tv-screen 
 {
     position: absolute;
@@ -129,6 +125,7 @@ body
     z-index: 5;
     pointer-events: none;
 }
+
 .room-7 { background-image: url('rooms/room-7.png'); }
 .room-8 { background-image: url('rooms/room-8.png'); }
 .room-9 { background-image: url('rooms/room-9.png'); }
@@ -326,7 +323,7 @@ body
     color: white;
 }
 
-/* Mobile Responsive Styles */
+/* mobile */
 @media screen and (max-width: 768px) 
 {
     body,
@@ -485,7 +482,7 @@ body
     }
 }
 
-/* Landscape orientation on mobile */
+/* landscape mobile */
 @media screen and (max-width: 768px) and (orientation: landscape) 
 {
     .welcome-message 
@@ -507,7 +504,6 @@ body
     }
 }
 
-/* Touch device improvements */
 @media (hover: none) and (pointer: coarse) 
 {
     .info-icon:active 
@@ -534,7 +530,7 @@ body
         transform: scale(1.1);
     }
 }
-/* Mode Toggle Buttons */
+
 .mode-btn 
 {
     position: absolute;
@@ -577,5 +573,5 @@ body
 
 @media screen and (max-width: 768px) 
 {
-    /* Remove restrictive mobile styles - let buttons keep their scene-specific positioning */
+    /*  */
 }

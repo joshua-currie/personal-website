@@ -13,12 +13,10 @@ const DEV_OVERRIDE = {
 };
 // =============================================================================
 
-// Global state to track if showing rooms or backgrounds
 let isShowingRoom = false;
 let currentWeatherData = null;
 let isTvOn = false;
 
-// background selection
 function getBackgroundClass(weatherData) 
 {
     const { hour, minute, is_raining, sunrise, sunset } = weatherData;
@@ -31,12 +29,9 @@ function getBackgroundClass(weatherData)
     const currentTimeInMinutes = hour * 60 + minute;
     const sunsetTimeInMinutes = sunsetHour * 60 + sunsetMinute;
     
-    // 30 minutes before sunset
     const thirtyMinutesBeforeSunset = sunsetTimeInMinutes - 30;
-    // 29 minutes before sunset to 29 minutes after sunset
     const twentyNineMinutesBeforeSunset = sunsetTimeInMinutes - 29;
     const twentyNineMinutesAfterSunset = sunsetTimeInMinutes + 29;
-    // 30 minutes after sunset
     const thirtyMinutesAfterSunset = sunsetTimeInMinutes + 30;
     
     // morning (7 AM - 11:59 AM)
@@ -92,7 +87,6 @@ function getBackgroundClass(weatherData)
         return { class: is_raining ? 'bg-12' : 'bg-11', period: 'Early Morning' };
     }
     
-    // default fallback
     return { class: 'bg-default', period: 'Morning' };
 }
 
@@ -102,16 +96,14 @@ function updateBackground(weatherData)
     const backgroundContainer = document.getElementById('background-container');
     const result = getBackgroundClass(weatherData);
     
-    // Check if transitioning from default background
     const isFromDefault = backgroundContainer.classList.contains('bg-default');
     
     backgroundContainer.className = 'background-container';
     backgroundContainer.classList.add(result.class);
     
-    // Add fade-in effect only when transitioning from default
-    if (isFromDefault) {
+    if (isFromDefault) 
+        {
         backgroundContainer.classList.add('fade-in');
-        // Remove fade-in class after animation completes
         setTimeout(() => {
             backgroundContainer.classList.remove('fade-in');
         }, 1000);
@@ -119,11 +111,9 @@ function updateBackground(weatherData)
     
     console.log('Background updated:', result.class, weatherData);
     
-    // return for tooltip
     return result.period;
 }
 
-// update tooltip info
 function updateTooltip(weatherData, timePeriod) 
 {
     try 
@@ -131,7 +121,6 @@ function updateTooltip(weatherData, timePeriod)
         const currentTime = new Date(weatherData.current_time);
         const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         
-        // format time as 12-hour with AM/PM
         let hours = currentTime.getHours();
         const minutes = currentTime.getMinutes();
         const ampm = hours >= 12 ? 'PM' : 'AM';
@@ -155,7 +144,6 @@ function updateTooltip(weatherData, timePeriod)
     }
 }
 
-// get activity based on time and day
 function getActivity(weatherData, timePeriod) 
 {
     const currentTime = new Date(weatherData.current_time);
@@ -165,7 +153,6 @@ function getActivity(weatherData, timePeriod)
     const isWeekday = currentTime.getDay() >= 1 && currentTime.getDay() <= 5;
     const isRaining = weatherData.is_raining;
     
-    // special case for sunset with rain
     if (timePeriod === 'Around Sunset' && isRaining) 
     {
         return `It's ${dayOfWeek} around Sunset. If it wasn't raining I would be watching the sunset.`;
@@ -173,7 +160,6 @@ function getActivity(weatherData, timePeriod)
     
     let activity = '';
     
-    // determine activity based on time and weekday/weekend
     if (timePeriod === 'Around Sunset') 
     {
         activity = 'watching the sunset';
@@ -216,7 +202,6 @@ function getActivity(weatherData, timePeriod)
     return `It's ${dayOfWeek} ${timePeriod}. I am probably ${activity}.`;
 }
 
-// update activity message
 function updateActivityMessage(weatherData, timePeriod) 
 {
     try 
@@ -225,7 +210,6 @@ function updateActivityMessage(weatherData, timePeriod)
         const activityElement = document.getElementById('activity-message');
         activityElement.textContent = activityText;
         
-        // show person image
         const personImage = document.getElementById('person-image');
         if (activityText.includes('going to work')) 
         {
@@ -260,7 +244,6 @@ function updateActivityMessage(weatherData, timePeriod)
     }
 }
 
-// fetch weather data from API
 async function fetchWeatherData() 
 {
     try 
@@ -274,10 +257,9 @@ async function fetchWeatherData()
         
         let data = await response.json();
         
-        // apply development overrides if enabled
         if (DEV_OVERRIDE.enabled) 
         {
-            console.log('⚠️ DEVELOPMENT MODE: Applying overrides');
+            console.log('DEVELOPMENT MODE: Applying overrides');
             const overrideTime = new Date(data.current_time);
             overrideTime.setHours(DEV_OVERRIDE.hour);
             overrideTime.setMinutes(DEV_OVERRIDE.minute);
@@ -299,13 +281,11 @@ async function fetchWeatherData()
             console.log('Override data:', data);
         }
         
-        // Store weather data globally
         currentWeatherData = data;
         
         const timePeriod = updateBackground(data);
         updateTooltip(data, timePeriod);
         
-        // wait 2 seconds before showing activity message
         setTimeout(() => {
             updateActivityMessage(data, timePeriod);
         }, 2000);
@@ -321,7 +301,7 @@ async function fetchWeatherData()
     }
 }
 
-// Toggle between background and room view
+// toggle between background and room view
 function switchToRoom() 
 {
     if (!currentWeatherData) 
@@ -339,7 +319,6 @@ function switchToRoom()
         return;
     }
     
-    // Extract background number (e.g., "bg-1" -> 1)
     const bgNumber = parseInt(currentClass.replace('bg-', ''));
     
     if (isNaN(bgNumber)) 
@@ -353,17 +332,16 @@ function switchToRoom()
     const isWeekend = currentTime.getDay() === 0 || currentTime.getDay() === 6;
     const hour = currentWeatherData.hour;
     
-    // For rooms 1-6, check if it's weekend
     if (bgNumber >= 1 && bgNumber <= 6 && isWeekend) 
     {
         roomClass = `room-${bgNumber}-weekend`;
     }
-    // For background 9, check if before 8pm and use -out variant
+
     else if (bgNumber === 9 && hour < 20) 
     {
         roomClass = `room-${bgNumber}-out`;
     }
-    // Default room mapping
+
     else 
     {
         roomClass = `room-${bgNumber}`;
@@ -373,13 +351,11 @@ function switchToRoom()
     backgroundContainer.classList.add(roomClass);
     isShowingRoom = true;
     
-    // Hide welcome message and person image in room mode
     const welcomeMessage = document.querySelector('.welcome-message');
     const personImage = document.getElementById('person-image');
     if (welcomeMessage) welcomeMessage.style.display = 'none';
     if (personImage) personImage.style.display = 'none';
     
-    // Toggle buttons
     const roomBtn = document.getElementById('room-btn');
     const backgroundBtn = document.getElementById('background-btn');
     const tvToggleBtn = document.getElementById('tv-toggle-btn');
@@ -398,17 +374,14 @@ function switchToBackground()
         return;
     }
     
-    // Switch back to background
     const timePeriod = updateBackground(currentWeatherData);
     isShowingRoom = false;
     
-    // Show welcome message and person image
     const welcomeMessage = document.querySelector('.welcome-message');
     const personImage = document.getElementById('person-image');
     if (welcomeMessage) welcomeMessage.style.display = '';
     if (personImage) personImage.style.display = '';
     
-    // Toggle buttons
     const roomBtn = document.getElementById('room-btn');
     const backgroundBtn = document.getElementById('background-btn');
     const tvToggleBtn = document.getElementById('tv-toggle-btn');
@@ -417,7 +390,6 @@ function switchToBackground()
     if (backgroundBtn) backgroundBtn.style.display = 'none';
     if (tvToggleBtn) tvToggleBtn.style.display = 'none';
     
-    // Turn off TV when switching to background
     if (tvScreen) tvScreen.style.display = 'none';
     isTvOn = false;
     
@@ -440,7 +412,6 @@ function init()
     fetchWeatherData();
     setInterval(fetchWeatherData, 5 * 60 * 1000);
     
-    // Mode toggle buttons
     const roomBtn = document.getElementById('room-btn');
     const backgroundBtn = document.getElementById('background-btn');
     const tvToggleBtn = document.getElementById('tv-toggle-btn');
@@ -460,20 +431,17 @@ function init()
         tvToggleBtn.addEventListener('click', toggleTv);
     }
     
-    // mobile touch handling for info icon
     const infoIcon = document.getElementById('info-icon');
     const infoTooltip = document.getElementById('info-tooltip');
     
     if (infoIcon && infoTooltip) 
     {
-        // toggle tooltip on touch devices
         infoIcon.addEventListener('click', function(e) 
         {
             e.stopPropagation();
             infoIcon.classList.toggle('active');
         });
         
-        // close tooltip when clicking outside
         document.addEventListener('click', function(e) 
         {
             if (!infoIcon.contains(e.target) && !infoTooltip.contains(e.target)) 
@@ -482,7 +450,6 @@ function init()
             }
         });
         
-        // prevent tooltip clicks from closing it
         infoTooltip.addEventListener('click', function(e) 
         {
             e.stopPropagation();
@@ -490,7 +457,6 @@ function init()
     }
 }
 
-// start when page loads
 if (document.readyState === 'loading') 
 {
     document.addEventListener('DOMContentLoaded', init);
