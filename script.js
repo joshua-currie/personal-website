@@ -16,6 +16,7 @@ const DEV_OVERRIDE = {
 // Global state to track if showing rooms or backgrounds
 let isShowingRoom = false;
 let currentWeatherData = null;
+let isTvOn = false;
 
 // background selection
 function getBackgroundClass(weatherData) 
@@ -381,8 +382,10 @@ function switchToRoom()
     // Toggle buttons
     const roomBtn = document.getElementById('room-btn');
     const backgroundBtn = document.getElementById('background-btn');
+    const tvToggleBtn = document.getElementById('tv-toggle-btn');
     if (roomBtn) roomBtn.style.display = 'none';
     if (backgroundBtn) backgroundBtn.style.display = 'flex';
+    if (tvToggleBtn) tvToggleBtn.style.display = 'block';
     
     console.log(`Switched to room view: ${roomClass}`);
 }
@@ -408,10 +411,28 @@ function switchToBackground()
     // Toggle buttons
     const roomBtn = document.getElementById('room-btn');
     const backgroundBtn = document.getElementById('background-btn');
+    const tvToggleBtn = document.getElementById('tv-toggle-btn');
+    const tvScreen = document.getElementById('tv-screen');
     if (roomBtn) roomBtn.style.display = 'flex';
     if (backgroundBtn) backgroundBtn.style.display = 'none';
+    if (tvToggleBtn) tvToggleBtn.style.display = 'none';
+    
+    // Turn off TV when switching to background
+    if (tvScreen) tvScreen.style.display = 'none';
+    isTvOn = false;
     
     console.log('Switched to background view');
+}
+
+function toggleTv() 
+{
+    const tvScreen = document.getElementById('tv-screen');
+    if (!tvScreen) return;
+    
+    isTvOn = !isTvOn;
+    tvScreen.style.display = isTvOn ? 'block' : 'none';
+    
+    console.log(`TV toggled: ${isTvOn ? 'ON' : 'OFF'}`);
 }
 
 function init() 
@@ -422,6 +443,7 @@ function init()
     // Mode toggle buttons
     const roomBtn = document.getElementById('room-btn');
     const backgroundBtn = document.getElementById('background-btn');
+    const tvToggleBtn = document.getElementById('tv-toggle-btn');
     
     if (roomBtn) 
     {
@@ -431,6 +453,11 @@ function init()
     if (backgroundBtn) 
     {
         backgroundBtn.addEventListener('click', switchToBackground);
+    }
+    
+    if (tvToggleBtn) 
+    {
+        tvToggleBtn.addEventListener('click', toggleTv);
     }
     
     // mobile touch handling for info icon

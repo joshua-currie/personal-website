@@ -85,6 +85,23 @@ body
 .bg-12 { background-image: url('backgrounds/background-12.png'); }
 .bg-default { background-image: url('backgrounds/default.png'); }
 
+/* TV toggle button */
+.tv-toggle-btn 
+{
+    position: absolute;
+    transform: rotate(-10deg);
+    bottom: 40%;
+    left: 18%;
+    width: 28%;
+    height: 25%;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    z-index: 100;
+    border-radius: 0;
+    opacity: 0;
+}
+
 /* room background classes */
 .room-1 { background-image: url('rooms/room-1.png'); }
 .room-1-weekend { background-image: url('rooms/room-1-weekend.png'); }
@@ -98,6 +115,20 @@ body
 .room-5-weekend { background-image: url('rooms/room-5-weekend.png'); }
 .room-6 { background-image: url('rooms/room-6.png'); }
 .room-6-weekend { background-image: url('rooms/room-6-weekend.png'); }
+
+/* TV screen */
+.tv-screen 
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    z-index: 5;
+    pointer-events: none;
+}
 .room-7 { background-image: url('rooms/room-7.png'); }
 .room-8 { background-image: url('rooms/room-8.png'); }
 .room-9 { background-image: url('rooms/room-9.png'); }
