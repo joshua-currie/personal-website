@@ -92,7 +92,7 @@ function getBackgroundClass(weatherData)
     }
     
     // default fallback
-    return { class: 'bg-1', period: 'Morning' };
+    return { class: 'bg-default', period: 'Morning' };
 }
 
 // update background based on weather
@@ -303,13 +303,13 @@ async function fetchWeatherData()
     {
         console.error('Error fetching weather data:', error);
         const backgroundContainer = document.getElementById('background-container');
-        backgroundContainer.className = 'background-container bg-1';
-        console.log('Applied fallback background: bg-1');
+        backgroundContainer.className = 'background-container bg-default';
+        console.log('Applied fallback background: bg-default');
     }
 }
 
 // Toggle between background and room view
-function toggleRoom() 
+function switchToRoom() 
 {
     if (!currentWeatherData) 
     {
@@ -326,74 +326,80 @@ function toggleRoom()
         return;
     }
     
-    if (isShowingRoom) 
-    {
-        // Switch back to background
-        const timePeriod = updateBackground(currentWeatherData);
-        isShowingRoom = false;
-        
-        // Show welcome message and person image
-        const welcomeMessage = document.querySelector('.welcome-message');
-        const personImage = document.getElementById('person-image');
-        if (welcomeMessage) welcomeMessage.style.display = '';
-        if (personImage) personImage.style.display = '';
-        
-        // Change button back to house emoji
-        const roomToggleBtn = document.getElementById('room-toggle-btn');
-        if (roomToggleBtn) roomToggleBtn.textContent = '🏠';
-        
-        console.log('Switched to background view');
-    } 
+    // Extract background number (e.g., "bg-1" -> 1)
+    const bgNumber = parseInt(currentClass.replace('bg-', ''));
     
+    if (isNaN(bgNumber)) 
+    {
+        console.log('Invalid background number');
+        return;
+    }
+    
+    let roomClass = '';
+    const currentTime = new Date(currentWeatherData.current_time);
+    const isWeekend = currentTime.getDay() === 0 || currentTime.getDay() === 6;
+    const hour = currentWeatherData.hour;
+    
+    // For rooms 1-6, check if it's weekend
+    if (bgNumber >= 1 && bgNumber <= 6 && isWeekend) 
+    {
+        roomClass = `room-${bgNumber}-weekend`;
+    }
+    // For background 9, check if before 8pm and use -out variant
+    else if (bgNumber === 9 && hour < 20) 
+    {
+        roomClass = `room-${bgNumber}-out`;
+    }
+    // Default room mapping
     else 
     {
-        // Switch to room
-        // Extract background number (e.g., "bg-1" -> 1)
-        const bgNumber = parseInt(currentClass.replace('bg-', ''));
-        
-        if (isNaN(bgNumber)) 
-        {
-            console.log('Invalid background number');
-            return;
-        }
-        
-        let roomClass = '';
-        const currentTime = new Date(currentWeatherData.current_time);
-        const isWeekend = currentTime.getDay() === 0 || currentTime.getDay() === 6;
-        const hour = currentWeatherData.hour;
-        
-        // For rooms 1-6, check if it's weekend
-        if (bgNumber >= 1 && bgNumber <= 6 && isWeekend) 
-        {
-            roomClass = `room-${bgNumber}-weekend`;
-        }
-        // For background 9, check if before 8pm and use -out variant (bg-8 doesn't have an -out variant)
-        else if (bgNumber === 9 && hour < 20) 
-        {
-            roomClass = `room-${bgNumber}-out`;
-        }
-        // Default room mapping
-        else 
-        {
-            roomClass = `room-${bgNumber}`;
-        }
-        
-        backgroundContainer.className = 'background-container';
-        backgroundContainer.classList.add(roomClass);
-        isShowingRoom = true;
-        
-        // Hide welcome message and person image in room mode
-        const welcomeMessage = document.querySelector('.welcome-message');
-        const personImage = document.getElementById('person-image');
-        if (welcomeMessage) welcomeMessage.style.display = 'none';
-        if (personImage) personImage.style.display = 'none';
-        
-        // Change button to outdoor emoji
-        const roomToggleBtn = document.getElementById('room-toggle-btn');
-        if (roomToggleBtn) roomToggleBtn.textContent = '🌳';
-        
-        console.log(`Switched to room view: ${roomClass}`);
+        roomClass = `room-${bgNumber}`;
     }
+    
+    backgroundContainer.className = 'background-container';
+    backgroundContainer.classList.add(roomClass);
+    isShowingRoom = true;
+    
+    // Hide welcome message and person image in room mode
+    const welcomeMessage = document.querySelector('.welcome-message');
+    const personImage = document.getElementById('person-image');
+    if (welcomeMessage) welcomeMessage.style.display = 'none';
+    if (personImage) personImage.style.display = 'none';
+    
+    // Toggle buttons
+    const roomBtn = document.getElementById('room-btn');
+    const backgroundBtn = document.getElementById('background-btn');
+    if (roomBtn) roomBtn.style.display = 'none';
+    if (backgroundBtn) backgroundBtn.style.display = 'flex';
+    
+    console.log(`Switched to room view: ${roomClass}`);
+}
+
+function switchToBackground() 
+{
+    if (!currentWeatherData) 
+    {
+        console.log('No weather data available yet');
+        return;
+    }
+    
+    // Switch back to background
+    const timePeriod = updateBackground(currentWeatherData);
+    isShowingRoom = false;
+    
+    // Show welcome message and person image
+    const welcomeMessage = document.querySelector('.welcome-message');
+    const personImage = document.getElementById('person-image');
+    if (welcomeMessage) welcomeMessage.style.display = '';
+    if (personImage) personImage.style.display = '';
+    
+    // Toggle buttons
+    const roomBtn = document.getElementById('room-btn');
+    const backgroundBtn = document.getElementById('background-btn');
+    if (roomBtn) roomBtn.style.display = 'flex';
+    if (backgroundBtn) backgroundBtn.style.display = 'none';
+    
+    console.log('Switched to background view');
 }
 
 function init() 
@@ -401,11 +407,18 @@ function init()
     fetchWeatherData();
     setInterval(fetchWeatherData, 5 * 60 * 1000);
     
-    // Room toggle button
-    const roomToggleBtn = document.getElementById('room-toggle-btn');
-    if (roomToggleBtn) 
+    // Mode toggle buttons
+    const roomBtn = document.getElementById('room-btn');
+    const backgroundBtn = document.getElementById('background-btn');
+    
+    if (roomBtn) 
     {
-        roomToggleBtn.addEventListener('click', toggleRoom);
+        roomBtn.addEventListener('click', switchToRoom);
+    }
+    
+    if (backgroundBtn) 
+    {
+        backgroundBtn.addEventListener('click', switchToBackground);
     }
     
     // mobile touch handling for info icon
