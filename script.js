@@ -170,7 +170,12 @@ function getActivity(weatherData, timePeriod)
         activity = isWeekday ? 'going to work' : 'still asleep';
     } 
 
-    else if (hour >= 10 && hour < 16) 
+    else if (hour >= 10 && hour < 12) 
+    {
+        activity = isWeekday ? 'at work' : 'still asleep';
+    } 
+
+    else if (hour >= 12 && hour < 16) 
     {
         activity = isWeekday ? 'at work' : 'out for lunch somewhere';
     } 
